@@ -1,0 +1,10 @@
+package CUK.CUKBOB.studentstore.domain.repository;
+
+import CUK.CUKBOB.studentstore.domain.entity.MealEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface MealRepository extends JpaRepository<MealEntity, Long> {
+    Long id(Long id);
+}
