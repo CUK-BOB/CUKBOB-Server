@@ -1,0 +1,131 @@
+package CUK.CUKBOB.oauth.Service;
+
+import CUK.CUKBOB.oauth.Dto.KakaoDto;
+import CUK.CUKBOB.oauth.Dto.SignInRequest;
+import CUK.CUKBOB.oauth.Dto.SignInResponse;
+import CUK.CUKBOB.oauth.Repository.UserRepository;
+import CUK.CUKBOB.oauth.Domain.SocialType;
+import CUK.CUKBOB.oauth.Domain.User;
+import CUK.CUKBOB.oauth.Jwt.JwtTokenProvider;
+import CUK.CUKBOB.oauth.Jwt.UserAuthentication;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class KakaoService {
+
+    private static final int ACCESS_TOKEN_EXPIRATION = 7200000;
+    private static final int REFRESH_TOKEN_EXPIRATION = 1209600000;
+
+    private final KakaoAccessTokenService kakaoAccessTokenService;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final UserRepository userRepository;
+
+    //로그인
+    public SignInResponse signIn(String socialAccessToken, SignInRequest request) {
+        User user = getUser(socialAccessToken, request);
+        return generateToken(user);
+    }
+
+    // 회원가입
+    private User signUp(SocialType socialType, String email) {
+        System.out.println("signUp 메서드 호출됨, 이메일: " + email); // 추가된 로그
+        Optional<User> existingUser = userRepository.findBySocialTypeAndEmail(socialType, email);
+
+        if (existingUser.isPresent()) {
+            System.out.println("User already exists: " + email);
+            return existingUser.get();
+        }
+
+        System.out.println("저장시도: " + email);
+        User newUser = saveUser(socialType, email);
+        return userRepository.save(newUser);
+    }
+
+    //로그아웃
+    public void signOut(long Id) {
+        User user = findUser(Id);
+        user.resetRefreshToken();
+    }
+
+    //회원탈퇴
+    public void withdraw(long Id) {
+        User user = findUser(Id);
+        deleteUser(user);
+    }
+
+    //유저정보받기
+    private User getUser(String socialAccessToken, SignInRequest request) {
+        SocialType socialType = request.socialType();
+        KakaoDto userInfo = getKakaoUserInfo(socialAccessToken);
+        String email = userInfo.getKakao_email();
+        return signUp(socialType, email);
+    }
+
+    //유저정보 DB 저장
+    @Transactional(rollbackFor = Exception.class)  // 모든 예외에 대해 롤백
+    public User saveUser(SocialType socialType, String email) {
+        System.out.println("Saving new user: " + email);
+
+        User newUser = User.builder()
+                .email(email)
+                .socialType(socialType)
+                .build();
+        System.out.println("저장완료: " + email);
+        return userRepository.save(newUser);
+    }
+
+
+    private KakaoDto getKakaoUserInfo(String socialAccessToken) {
+        return kakaoAccessTokenService.getKakaoUserInfo(socialAccessToken);
+    }
+
+    //이메일 받아오기
+    /*
+    // private Map<String, String> getEmail(String socialAccessToken, SocialType socialType) {
+        return switch (socialType) {
+            case KAKAO -> kakaoAccessTokenService.getKakaoUserInfo(socialAccessToken); // 오류 수정
+        };
+    }*/
+
+    //JWT 토큰 생성
+    private SignInResponse generateToken(User user) {
+        Authentication authentication = new UserAuthentication(user.getId(), null, null);
+
+        String accessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION);
+        String refreshToken = jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION);
+
+        user.updateRefreshToken(refreshToken);
+
+        return new SignInResponse(accessToken, refreshToken);
+    }
+
+    public String getAccessTokenFromKakao(String code) {
+        return kakaoAccessTokenService.getAccessToken(code);
+    }
+
+    //카카오 인가코드 -> 엑세스토큰 -> 사용자 정보 받고 -> JWT 발급
+    public SignInResponse signInWithAuthorizationCode(String code) {
+        String accessToken = kakaoAccessTokenService.getAccessToken(code); //토큰 받기
+
+        KakaoDto userInfo = kakaoAccessTokenService.getKakaoUserInfo(accessToken); //사용자 정보 요청
+        String email = userInfo.getKakao_email();
+        User user = signUp(SocialType.KAKAO, email); //DB 저장 or 기존 유저 조회
+        return generateToken(user); //JWT 발급
+    }
+
+    //유저찾기
+    private User findUser(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + id));
+    }
+    private void deleteUser(User user) {
+        userRepository.delete(user);
+    }
+}
