@@ -1,4 +1,4 @@
 package CUK.CUKBOB.fnb.domain;
 
-public class category {
+public class Category {
 }

@@ -1,4 +1,4 @@
 package CUK.CUKBOB.studentstore.domain;
 
-public class meal {
+public class Meal {
 }
