@@ -43,7 +43,7 @@ public class KakaoController {
     }
 
     //회원탈퇴
-    @DeleteMapping
+    @DeleteMapping("/withdraw")
     public ResponseEntity<Void> withdrawal(Principal principal) {
         long userId = Long.parseLong(principal.getName());
         kakaoService.withdraw(userId);

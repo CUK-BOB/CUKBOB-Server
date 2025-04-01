@@ -82,6 +82,7 @@ public class JwtTokenProvider {
     //추출한 Claims안에 Id라는 키로 저장된 값을 Long타입으로 변환
     public Long getUserFromJwt(String token) {
         Claims claims = getBody(token);
+        log.info("🎯 JWT 파싱된 ID: {}", claims.get("Id")); // 이거 추가!
         return Long.parseLong(claims.get("Id").toString());
     }
 
