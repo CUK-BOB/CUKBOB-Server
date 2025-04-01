@@ -115,8 +115,8 @@ public class KakaoService {
         String accessToken = jwtTokenProvider.generateToken(authentication, ACCESS_TOKEN_EXPIRATION);
         String refreshToken = jwtTokenProvider.generateToken(authentication, REFRESH_TOKEN_EXPIRATION);
 
-        //user.updateRefreshToken(refreshToken);
-        //user.updateAccessToken(accessToken);
+        user.updateRefreshToken(refreshToken);
+        userRepository.save(user);
 
         return new SignInResponse(accessToken, refreshToken);
     }
