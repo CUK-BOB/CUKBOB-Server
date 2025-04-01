@@ -35,7 +35,7 @@ public class KakaoService {
 
     // 회원가입
     private User signUp(SocialType socialType, String email) {
-        System.out.println("signUp 메서드 호출됨, 이메일: " + email); // 추가된 로그
+        System.out.println("이메일: " + email);
         Optional<User> existingUser = userRepository.findBySocialTypeAndEmail(socialType, email);
 
         if (existingUser.isPresent()) {

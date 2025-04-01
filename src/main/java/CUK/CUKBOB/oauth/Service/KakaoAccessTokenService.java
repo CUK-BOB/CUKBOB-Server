@@ -68,6 +68,8 @@ public class KakaoAccessTokenService {
             //userInfo.put("nickname", nickname);
             */
 
+            System.out.println("🔥 전달된 토큰 = " + socialAccessToken);
+
             return userInfo;
 
         } catch (Exception exception) {
