@@ -43,9 +43,6 @@ public class User {
     public void updateAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
-
-    //리프레시 토큰 무효화 (로그아웃, 회원탈퇴를 위한)
-    public void resetRefreshToken() {this.refreshToken = null; }
 }
 
 

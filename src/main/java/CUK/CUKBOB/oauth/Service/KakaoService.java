@@ -58,7 +58,8 @@ public class KakaoService {
     //로그아웃
     public void signOut(long Id) {
         User user = findUser(Id);
-        user.resetRefreshToken();
+        user.setAccessToken(null);
+        user.setRefreshToken(null);
     }
 
     // 회원탈퇴
@@ -160,7 +161,4 @@ public class KakaoService {
                 String.class
         );
     }
-
-
-
 }
