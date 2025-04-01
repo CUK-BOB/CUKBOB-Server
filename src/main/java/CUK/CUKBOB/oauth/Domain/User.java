@@ -17,7 +17,6 @@ public class User {
 
     private String email;
     private String nickname;
-
     @Enumerated(value = EnumType.STRING)
     @Column(name = "social_type")
     private SocialType socialType;
@@ -35,5 +34,8 @@ public class User {
 
     public void updateRefreshToken(String refreshToken){this.refreshToken = refreshToken;}
 
+    //리프레시 토큰 무효화 (로그아웃, 회원탈퇴를 위한)
     public void resetRefreshToken() {this.refreshToken = null; }
 }
+
+

@@ -25,7 +25,11 @@ public class KakaoController {
 
     // 2. access token으로 로그인 처리하는 POST 핸들러 ← 클라이언트 앱에서 호출
     @PostMapping("/kakao/callback")
-    public ResponseEntity<SignInResponse> signIn(@RequestHeader("Authorization") String socialAccessToken, @RequestBody SignInRequest request) {
+    public ResponseEntity<SignInResponse> signIn(
+            @RequestHeader("Authorization") String authorizationHeader,
+            @RequestBody SignInRequest request
+    ) {
+        String socialAccessToken = authorizationHeader.replace("Bearer ", "").trim();
         SignInResponse response = kakaoService.signIn(socialAccessToken, request);
         return ResponseEntity.ok(response);
     }
@@ -38,7 +42,7 @@ public class KakaoController {
         return ResponseEntity.ok(null);
     }
 
-    //탈퇴
+    //회원탈퇴
     @DeleteMapping
     public ResponseEntity<Void> withdrawal(Principal principal) {
         long userId = Long.parseLong(principal.getName());
