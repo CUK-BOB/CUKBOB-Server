@@ -29,7 +29,7 @@ public class KakaoController {
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.fail(400, "로그인 실패"));
+                    .body(ApiResponse.fail(400, "잘못된 토큰입니다"));
         }
     }
 
@@ -46,28 +46,38 @@ public class KakaoController {
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.fail(400, "로그인 실패"));
+                    .body(ApiResponse.fail(400, "잘못된 토큰입니다"));
         }
     }
 
     //로그아웃
     @PostMapping("/logout")
-    public ResponseEntity<?> signOut(Principal principal) {
-        long userId = Long.parseLong(principal.getName());
-        kakaoService.signOut(userId);
-        ApiResponse response = ApiResponse.success("로그아웃 성공", null);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<ApiResponse<Void>> signOut(Principal principal) {
+        try {
+            long userId = Long.parseLong(principal.getName());
+            kakaoService.signOut(userId);
+            return ResponseEntity.ok(ApiResponse.success("로그아웃 성공", null));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.fail(400, "토큰이 유효하지 않습니다"));
+        }
     }
 
     //회원탈퇴
     @DeleteMapping("/withdraw")
-    public ResponseEntity<?> withdraw(HttpServletRequest request)    {
-        String jwt = extractTokenFromHeader(request); // Authorization 헤더에서 토큰 추출
-        Long userId = jwtTokenProvider.getUserFromJwt(jwt); // 토큰에서 유저 ID 파싱
+    public ResponseEntity<ApiResponse<Void>> withdraw(HttpServletRequest request) {
+        try {
+            String jwt = extractTokenFromHeader(request); // Authorization 헤더에서 토큰 추출
+            Long userId = jwtTokenProvider.getUserFromJwt(jwt); // 토큰에서 유저 ID 파싱
 
-        kakaoService.withdraw(request, userId);
-        ApiResponse response = ApiResponse.success("회원탈퇴 성공", null);
-        return ResponseEntity.ok(response);
+            kakaoService.withdraw(request, userId);
+            return ResponseEntity.ok(ApiResponse.success("회원탈퇴 성공", null));
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.fail(400, "사용자를 찾을 수 없습니다"));
+        }
     }
 
     //유틸함수 나중에 따로 빼기

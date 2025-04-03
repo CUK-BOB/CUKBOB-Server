@@ -17,14 +17,9 @@ public class ApiResponse<T> {
         this.data = data;
     }
 
-    //로그인은 데이터 값 필요
+    //로그인은 데이터 값 필요, 로그아웃 회원탈퇴는 data값 없도록
     public static <T> ApiResponse<T> success(String message, T data) {
         return new ApiResponse<>(200, message, data);
-    }
-
-    //로그아웃이랑 회원탈퇴는 data값 없도록
-    public static ApiResponse<Void> success(String message) {
-        return new ApiResponse<>(200, message, null);
     }
 
     //fail 응답도 data 값 불필요
