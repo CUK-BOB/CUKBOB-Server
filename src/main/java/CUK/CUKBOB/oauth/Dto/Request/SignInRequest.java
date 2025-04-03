@@ -1,4 +1,4 @@
-package CUK.CUKBOB.oauth.Dto;
+package CUK.CUKBOB.oauth.Dto.Request;
 
 import CUK.CUKBOB.oauth.Domain.SocialType;
 import lombok.NonNull;

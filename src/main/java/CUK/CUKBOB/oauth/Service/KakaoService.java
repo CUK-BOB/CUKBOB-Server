@@ -1,8 +1,8 @@
 package CUK.CUKBOB.oauth.Service;
 
 import CUK.CUKBOB.oauth.Dto.KakaoDto;
-import CUK.CUKBOB.oauth.Dto.SignInRequest;
-import CUK.CUKBOB.oauth.Dto.SignInResponse;
+import CUK.CUKBOB.oauth.Dto.Request.SignInRequest;
+import CUK.CUKBOB.oauth.Dto.Response.SignInResponse;
 import CUK.CUKBOB.oauth.Repository.UserRepository;
 import CUK.CUKBOB.oauth.Domain.SocialType;
 import CUK.CUKBOB.oauth.Domain.User;
@@ -16,12 +16,9 @@ import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -47,7 +44,6 @@ public class KakaoService {
     //로그인
     public SignInResponse signIn(String socialAccessToken, SignInRequest request) {
         User user = getUser(socialAccessToken, request);
-        //user.setAccessToken(socialAccessToken);
         return generateToken(user);
     }
 
@@ -104,13 +100,9 @@ public class KakaoService {
                     entity,
                     String.class
             );
-            log.info("✅ 카카오 unlink 응답: {}", response.getBody());
         } catch (HttpClientErrorException e) {
-            log.error("❌ 카카오 unlink 요청 실패 - 상태 코드: {}", e.getStatusCode());
-            log.error("❌ 응답 바디: {}", e.getResponseBodyAsString()); // 이게 핵심!
             throw new RuntimeException("카카오 unlink 실패: " + e.getResponseBodyAsString());
         } catch (Exception e) {
-            log.error("❌ 알 수 없는 에러 발생", e);
             throw new RuntimeException("알 수 없는 에러: " + e.getMessage());
         }
     }
@@ -161,7 +153,7 @@ public class KakaoService {
         //user.updateAccessToken(accessToken);
         userRepository.save(user);
 
-        return new SignInResponse(accessToken, refreshToken);
+        return new SignInResponse(user.getId(), accessToken);
     }
 
     //카카오 인가코드 -> 엑세스토큰 -> 사용자 정보 받고 -> JWT 발급
