@@ -23,6 +23,7 @@ public class KakaoAccessTokenService {
     @Value("${KAKAO_CLIENT_SECRET}")
     private String kakaoClientSecret;
 
+    //카카오 유저정보 받아오기
     public KakaoDto getKakaoUserInfo(String socialAccessToken) {
         try {
             HttpHeaders headers = new HttpHeaders();
@@ -51,13 +52,6 @@ public class KakaoAccessTokenService {
 
             //이메일 정보 추출
             String email = (String) kakaoAccount.get("email");
-
-            //프로필 정보 추출
-            /*
-            Map<String, Object> profile = (Map<String, Object>) kakaoAccount.get("profile");
-            String nickname = (profile != null) ? (String) profile.get("nickname") : null;
-            */
-
             KakaoDto userInfo = new KakaoDto();
             userInfo.setKakao_email(email);
 
@@ -68,8 +62,6 @@ public class KakaoAccessTokenService {
             //userInfo.put("nickname", nickname);
             */
 
-            System.out.println("🔥 전달된 토큰 = " + socialAccessToken);
-
             return userInfo;
 
         } catch (Exception exception) {
@@ -78,7 +70,7 @@ public class KakaoAccessTokenService {
 
     }
 
-    //AccessToken 받아오기
+    //kakao AccessToken 받아오기
     public String getAccessToken(String code) {
         String tokenRequestUrl = "https://kauth.kakao.com/oauth/token";
 

@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     }
 
-    //요청에서 엑세스 토큰 추충
+    //요청에서 엑세스 토큰 추출
     private String getAccessTokenFromRequest(HttpServletRequest request) {
         return isContainsAccessToken(request) ? getAuthorizationAccessToken(request) : null;
     }

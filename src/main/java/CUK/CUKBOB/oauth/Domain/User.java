@@ -16,7 +16,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-
     private String email;
     private String nickname;
     @Enumerated(value = EnumType.STRING)
@@ -26,23 +25,22 @@ public class User {
     @Column(name = "refresh_token")
     private String refreshToken;
 
-    private String accessToken;
+    //private String accessToken;
 
     @Builder
     public User(SocialType socialType, String email) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = null;
-        this.accessToken = null;
+        //this.accessToken = null;
         this.refreshToken = null;
     }
 
     public void updateRefreshToken(String refreshToken){this.refreshToken = refreshToken;}
 
-    // 메서드 추가
-    public void updateAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
+    //public void updateAccessToken(String accessToken) {
+    //    this.accessToken = accessToken;
+    //}
 }
 
 
