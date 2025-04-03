@@ -4,17 +4,18 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 @Table(name = "user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private Long id;
-
     private String email;
     private String nickname;
     @Enumerated(value = EnumType.STRING)
@@ -24,18 +25,22 @@ public class User {
     @Column(name = "refresh_token")
     private String refreshToken;
 
+    //private String accessToken;
+
     @Builder
     public User(SocialType socialType, String email) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = null;
+        //this.accessToken = null;
         this.refreshToken = null;
     }
 
     public void updateRefreshToken(String refreshToken){this.refreshToken = refreshToken;}
 
-    //리프레시 토큰 무효화 (로그아웃, 회원탈퇴를 위한)
-    public void resetRefreshToken() {this.refreshToken = null; }
+    //public void updateAccessToken(String accessToken) {
+    //    this.accessToken = accessToken;
+    //}
 }
 
 

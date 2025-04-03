@@ -4,6 +4,7 @@ import CUK.CUKBOB.oauth.Config.ValueConfig;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -79,10 +80,14 @@ public class JwtTokenProvider {
                 .getBody();
     }
 
-    //추출한 Claims안에 Id라는 키로 저장된 값을 Long타입으로 변환
     public Long getUserFromJwt(String token) {
-        Claims claims = getBody(token);
-        return Long.parseLong(claims.get("Id").toString());
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey()) // 시크릿 키 설정
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return claims.get("Id", Long.class); // 토큰에 담긴 id 꺼냄
     }
 
 }
