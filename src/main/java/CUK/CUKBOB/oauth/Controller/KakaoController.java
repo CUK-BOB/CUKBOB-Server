@@ -52,10 +52,12 @@ public class KakaoController {
 
     //로그아웃
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> signOut(Principal principal) {
+    public ResponseEntity<ApiResponse<Void>> signOut(HttpServletRequest request) {
         try {
-            long userId = Long.parseLong(principal.getName());
-            kakaoService.signOut(userId);
+            String jwt = extractTokenFromHeader(request); // Authorization 헤더에서 토큰 추출
+            Long userId = jwtTokenProvider.getUserFromJwt(jwt); // 토큰에서 유저 ID 파싱
+
+            kakaoService.signOut(request, userId);
             return ResponseEntity.ok(ApiResponse.success("로그아웃 성공", null));
         } catch (Exception e) {
             return ResponseEntity
