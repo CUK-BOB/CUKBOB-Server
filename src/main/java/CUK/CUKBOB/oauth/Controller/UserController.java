@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +38,24 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.fail(500, "서버 오류가 발생했습니다."));
+        }
+    }
+
+    @PatchMapping("/nickname")
+    public ResponseEntity<ApiResponse<Void>> updateNickname(@RequestBody NicknameRequest nicknameRequest) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Long userId = Long.parseLong(authentication.getPrincipal().toString());
+
+            userService.updateNickname(userId, nicknameRequest.getNickname());
+
+            return ResponseEntity.ok(ApiResponse.success("닉네임 변경 완료", null));
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.fail(400, e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(ApiResponse.fail(500, "서버 오류가 발생했습니다."));
         }
     }
