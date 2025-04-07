@@ -8,8 +8,12 @@ import java.util.Collection;
 //시용자 인증을 나타내는 클래스
 public class UserAuthentication extends UsernamePasswordAuthenticationToken {
 
-    public UserAuthentication(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-        super(principal, credentials, authorities);
+    public UserAuthentication(Long userId, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        super(userId, credentials, authorities);
+    }
+
+    public Long getUserId() {
+        return (Long) getPrincipal();
     }
 }
 
