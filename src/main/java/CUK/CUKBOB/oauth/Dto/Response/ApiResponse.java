@@ -23,7 +23,7 @@ public class ApiResponse<T> {
     }
 
     //fail 응답도 data 값 불필요
-    public static ApiResponse<Void> fail(int code, String message) {
+    public static <T> ApiResponse<T> fail(int code, String message) {
         return new ApiResponse<>(code, message, null);
     }
 }
