@@ -24,6 +24,30 @@ public class FnbController {
         try {
             List<FnbResponseDto> fnbList = fnbService.getFnbListByCategoryId(categoryId);
 
+            String categoryName = fnbService.getCategoryName(categoryId);
+
+            return ResponseEntity.ok(
+                    ApiResponse.success( categoryName + "목록 조회 성공", fnbList)
+            );
+
+        } catch (IllegalStateException e) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.fail(400, e.getMessage()));
+
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(ApiResponse.fail(500, "서버 오류가 발생했습니다."));
+        }
+    }
+
+
+    @GetMapping("/list")
+    public ResponseEntity<ApiResponse<List<FnbResponseDto>>> getAllFnbList(){
+        try {
+            List<FnbResponseDto> fnbList = fnbService.getAllfnbList();
+
             return ResponseEntity.ok(
                     ApiResponse.success("카테고리 목록 조회 성공", fnbList)
             );
