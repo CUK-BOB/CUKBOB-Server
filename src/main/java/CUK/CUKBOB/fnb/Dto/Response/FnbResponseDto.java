@@ -1,4 +1,4 @@
-package CUK.CUKBOB.fnb.Dto;
+package CUK.CUKBOB.fnb.Dto.Response;
 
 import CUK.CUKBOB.fnb.Domain.Fnb;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,7 +1,7 @@
 package CUK.CUKBOB.fnb.Service;
 
 import CUK.CUKBOB.fnb.Domain.Fnb;
-import CUK.CUKBOB.fnb.Dto.FnbResponseDto;
+import CUK.CUKBOB.fnb.Dto.Response.FnbResponseDto;
 import CUK.CUKBOB.fnb.Repository.FnbRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
