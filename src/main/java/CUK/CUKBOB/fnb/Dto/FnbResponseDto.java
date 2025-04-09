@@ -1,6 +1,7 @@
 package CUK.CUKBOB.fnb.Dto;
 
 import CUK.CUKBOB.fnb.Domain.Fnb;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +15,11 @@ public class FnbResponseDto {
     private Long fnbId;
     private Long categoryId;
     private String fnbName;
+
+    @JsonIgnore
     private String time;
-    private String location;
-    private String restImg;
+    private String fnbLocation;
+    private String fnbImg;
 
     public static FnbResponseDto fromEntity(Fnb fnb) {
         return FnbResponseDto.builder()
@@ -24,8 +27,8 @@ public class FnbResponseDto {
                 .categoryId(fnb.getCategory().getId())
                 .fnbName(fnb.getName())
                 .time(fnb.getTime())
-                .location(fnb.getLocation())
-                .restImg(fnb.getImg())
+                .fnbLocation(fnb.getLocation())
+                .fnbImg(fnb.getImg())
                 .build();
     }
 }
