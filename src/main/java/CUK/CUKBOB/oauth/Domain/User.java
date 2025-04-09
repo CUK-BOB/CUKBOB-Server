@@ -37,10 +37,6 @@ public class User {
     }
 
     public void updateRefreshToken(String refreshToken){this.refreshToken = refreshToken;}
-
-    //public void updateAccessToken(String accessToken) {
-    //    this.accessToken = accessToken;
-    //}
 }
 
 
