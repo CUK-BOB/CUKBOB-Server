@@ -1,4 +1,4 @@
-package CUK.CUKBOB.studentstore.domain.dto;
+package CUK.CUKBOB.studentstore.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,5 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RestautantRquest {
-    private String name;
-    private String time;
-    private String location;
+    private Long id;
 }

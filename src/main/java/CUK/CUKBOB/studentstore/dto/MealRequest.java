@@ -1,4 +1,4 @@
-package CUK.CUKBOB.studentstore.domain.dto;
+package CUK.CUKBOB.studentstore.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

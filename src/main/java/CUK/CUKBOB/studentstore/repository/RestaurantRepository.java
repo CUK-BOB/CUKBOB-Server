@@ -1,6 +1,6 @@
-package CUK.CUKBOB.studentstore.domain.repository;
+package CUK.CUKBOB.studentstore.repository;
 
-import CUK.CUKBOB.studentstore.domain.entity.RestaurantEntity;
+import CUK.CUKBOB.studentstore.domain.RestaurantEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

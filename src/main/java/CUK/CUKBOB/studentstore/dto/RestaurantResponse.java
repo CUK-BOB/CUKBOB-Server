@@ -1,10 +1,11 @@
-package CUK.CUKBOB.studentstore.domain.dto;
+package CUK.CUKBOB.studentstore.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class RestaurantResponse {
     private Long id;
     private String name;

@@ -1,4 +1,4 @@
-package CUK.CUKBOB.studentstore.domain.entity;
+package CUK.CUKBOB.studentstore.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;

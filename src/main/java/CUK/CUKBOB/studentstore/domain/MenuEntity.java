@@ -1,8 +1,10 @@
-package CUK.CUKBOB.studentstore.domain.entity;
+package CUK.CUKBOB.studentstore.domain;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -12,9 +14,9 @@ public class MenuEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String date;
+    private LocalDate date;
     private String names;
-    private Long price;
+    private String price;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id")  // Menu 테이블에 생길 FK 컬럼 이름

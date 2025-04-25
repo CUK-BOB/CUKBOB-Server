@@ -1,19 +1,18 @@
-package CUK.CUKBOB.studentstore.domain.dto;
+package CUK.CUKBOB.studentstore.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class MenuResponse {
     private Long id;
     private String date;
-    private Long price;
+    private List<String> price;
     private List<String> names;
     private RestaurantResponse restaurant;
-
+    private MealResponse meal;
 }
