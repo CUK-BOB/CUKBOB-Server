@@ -1,6 +1,6 @@
 package CUK.CUKBOB.fnb.Controller;
 
-import CUK.CUKBOB.fnb.Dto.FnbResponseDto;
+import CUK.CUKBOB.fnb.Dto.Response.FnbResponseDto;
 import CUK.CUKBOB.fnb.Service.FnbService;
 import CUK.CUKBOB.oauth.Dto.Response.ApiResponse;
 import lombok.RequiredArgsConstructor;

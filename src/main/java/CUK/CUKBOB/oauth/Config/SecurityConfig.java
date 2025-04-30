@@ -36,6 +36,7 @@ public class SecurityConfig {
                         authorizeHttpRequests
                                 .requestMatchers(new AntPathRequestMatcher("/auth/kakao/callback")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/fnb/list/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/fnb/menu/list/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
