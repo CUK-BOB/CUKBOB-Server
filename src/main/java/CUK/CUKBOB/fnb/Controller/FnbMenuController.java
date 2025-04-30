@@ -31,7 +31,7 @@ public class FnbMenuController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .body(ApiResponse.fail(400, e.getMessage()));
+                    .body(ApiResponse.fail(400, "메뉴를 조회할 수 없습니다."));
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
