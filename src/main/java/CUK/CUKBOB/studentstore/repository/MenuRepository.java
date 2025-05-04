@@ -1,14 +1,16 @@
 package CUK.CUKBOB.studentstore.repository;
 
 import CUK.CUKBOB.studentstore.domain.MenuEntity;
-import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Repository
 public interface MenuRepository extends JpaRepository<MenuEntity, Long> {
+
+    // 특정 날짜의 메뉴 조회
     List<MenuEntity> findAllByDate(LocalDate date);
+
+    // 날짜 범위 내 메뉴 조회 (주간 조회용)
+    List<MenuEntity> findAllByDateBetween(LocalDate startDate, LocalDate endDate);
 }

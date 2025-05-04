@@ -8,7 +8,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MenuResponse {
+public class TodayMenuResponse {
     private MealGroup morning;
     private MealGroup lunch;
     private MealGroup dinner;

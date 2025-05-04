@@ -1,25 +1,32 @@
 package CUK.CUKBOB.studentstore.controller;
 
-import CUK.CUKBOB.studentstore.domain.MenuEntity;
-import CUK.CUKBOB.studentstore.dto.MenuResponse;
+import CUK.CUKBOB.studentstore.dto.ApiResponse;
+import CUK.CUKBOB.studentstore.dto.TodayMenuResponse;
+import CUK.CUKBOB.studentstore.dto.WeeklyMenuResponse;
 import CUK.CUKBOB.studentstore.service.MenuService;
-import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequestMapping("/api/menu")
+@RequiredArgsConstructor
 public class MenuController {
 
     private final MenuService menuService;
 
-    @GetMapping("/api/restaurant/today")
-    public List<MenuResponse> getMenusDate(@RequestParam LocalDate date) {
-        return menuService.findByDate(date);
+    @GetMapping("/today")
+    public ApiResponse<TodayMenuResponse> getTodayMenus(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return menuService.getTodayMenus(date);
     }
 
+    @GetMapping("/week")
+    public ApiResponse<List<WeeklyMenuResponse>> getWeeklyMenus(
+            @RequestParam("from") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam("to") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to) {
+        return menuService.getWeeklyMenus(from, to);
+    }
 }

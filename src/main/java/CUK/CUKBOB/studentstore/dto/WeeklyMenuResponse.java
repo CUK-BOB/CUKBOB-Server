@@ -7,8 +7,8 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class WeeklyMenuResponse {
     private Long restaurant_id;
     private String restaurant_name;
@@ -21,8 +21,8 @@ public class WeeklyMenuResponse {
     @Getter
     @Setter
     @Builder
-    @AllArgsConstructor
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class MealInfo {
         private List<String> menu;
         private List<Integer> price;
