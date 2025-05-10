@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
     private final UserService userService;
 
+    /*
     @PostMapping("/nickname")
     public ResponseEntity<ApiResponse<Void>> setNickname(@RequestBody NicknameRequest nicknameRequest) {
         try {
@@ -41,6 +42,7 @@ public class UserController {
                     .body(ApiResponse.fail(500, "서버 오류가 발생했습니다."));
         }
     }
+*/
 
     @PatchMapping("/nickname")
     public ResponseEntity<ApiResponse<Void>> updateNickname(@RequestBody NicknameRequest nicknameRequest) {

@@ -16,7 +16,6 @@ import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
@@ -34,6 +33,7 @@ public class KakaoService {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserRepository userRepository;
     private final RestTemplate restTemplate;
+    private final UserService userService;
 
     @Value("${KAKAO_CLIENT_ID}")
     private String kakaoClientId;
@@ -75,6 +75,12 @@ public class KakaoService {
                 .email(email)
                 .socialType(socialType)
                 .build();
+        newUser = userRepository.saveAndFlush(newUser);
+
+        //기본닉네임설정
+        String defaultNick = userService.generateDefaultNickname(newUser.getId());
+        newUser.setNickname(defaultNick);
+
         return userRepository.save(newUser);
     }
 
@@ -168,8 +174,13 @@ public class KakaoService {
         String email = userInfo.getKakao_email();
 
         User user = signUp(SocialType.KAKAO, email);
-        userRepository.save(user);
 
+        //닉네임 비어있으면 기본 닉네임 설정
+        if (user.getNickname() == null) {
+            String defaultNick = userService.generateDefaultNickname(user.getId());
+            user.setNickname(defaultNick);
+            userRepository.save(user);
+        }
         return generateToken(user); //JWT 발급
     }
 

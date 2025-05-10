@@ -44,4 +44,12 @@ public class UserService {
         user.setNickname(newNickname);
         userRepository.save(user);
     }
+
+    //기본 닉네임 설정
+    public String generateDefaultNickname(Long userId) {
+        String padded = (userId < 1000)
+                ? String.format("%03d", userId)
+                : String.valueOf(userId);
+        return "쿡밥" + padded;
+    }
 }

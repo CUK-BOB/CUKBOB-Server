@@ -37,6 +37,8 @@ public class SecurityConfig {
                                 .requestMatchers(new AntPathRequestMatcher("/auth/kakao/callback")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/fnb/list/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/fnb/menu/list/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/review/**")).permitAll()
+                                .requestMatchers(new AntPathRequestMatcher("/restaurant/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
