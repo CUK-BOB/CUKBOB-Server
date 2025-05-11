@@ -12,13 +12,5 @@ public class CreateReviewRequest {
     private Long menuId;
     private Long userId;
     private LocalDate createDate;
-    private Map<String, Boolean> reviewList; // 평가 항목들
-
-    // Constructor for Request
-    public CreateReviewRequest(Long menuId, Long userId, LocalDate createDate, Map<String, Boolean> reviewList) {
-        this.menuId = menuId;
-        this.userId = userId;
-        this.createDate = createDate;
-        this.reviewList = reviewList;
-    }
+    private Map<String, Boolean> reviewList;
 }
