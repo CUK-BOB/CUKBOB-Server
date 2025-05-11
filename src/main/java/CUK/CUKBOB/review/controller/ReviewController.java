@@ -1,6 +1,8 @@
 package CUK.CUKBOB.review.controller;
 
+import CUK.CUKBOB.review.dto.ApiResponse;
 import CUK.CUKBOB.review.dto.CreateReviewRequest;
+import CUK.CUKBOB.review.dto.ReviewListResponse;
 import CUK.CUKBOB.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,5 +33,13 @@ public class ReviewController {
 
         // 응답 메시지
         return ResponseEntity.status(HttpStatus.CREATED).body("Review created successfully");
+    }
+
+    @GetMapping("/list/{user_id}/{menu_id}")
+    public ResponseEntity<?> getReviewList(
+            @PathVariable("user_id") Long userId,
+            @PathVariable("menu_id") Long menuId) {
+        ReviewListResponse response = reviewService.getReviewsByMenuAndUser(menuId, userId);
+        return ResponseEntity.ok(ApiResponse.success("리뷰 목록 조회 성공", response));
     }
 }
