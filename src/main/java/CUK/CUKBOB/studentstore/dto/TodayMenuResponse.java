@@ -28,8 +28,14 @@ public class TodayMenuResponse {
     public static class RestaurantMenu {
         private Long restaurant_id;
         private String restaurant_name;
+        // 8글자 이하 메뉴
         private List<String> menu;
         private List<Integer> price;
+
+        // 8글자 초과 메뉴
+        private List<String> menuLong;
+        private List<Integer> priceLong;
+
         private String restaurant_time;
     }
 }

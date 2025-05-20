@@ -24,8 +24,12 @@ public class WeeklyMenuResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class MealInfo {
-        private List<String> menu;
+        private List<String> menu;       // 8글자 이하 메뉴
         private List<Integer> price;
+
+        private List<String> menuLong;   // 8글자 초과 메뉴
+        private List<Integer> priceLong;
+
         private String restaurant_time;
     }
 }
