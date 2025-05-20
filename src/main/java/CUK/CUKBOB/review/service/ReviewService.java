@@ -4,8 +4,8 @@ import CUK.CUKBOB.oauth.Repository.UserRepository;
 import CUK.CUKBOB.oauth.Domain.User;
 import CUK.CUKBOB.review.domain.ReviewEntity;
 import CUK.CUKBOB.review.dto.CreateReviewRequest;
-import CUK.CUKBOB.review.dto.MyReviewDto;
-import CUK.CUKBOB.review.dto.ReviewDto;
+import CUK.CUKBOB.review.dto.MyReviewResponse;
+import CUK.CUKBOB.review.dto.ReviewResponse;
 import CUK.CUKBOB.review.dto.ReviewListResponse;
 import CUK.CUKBOB.review.repository.ReviewRepository;
 import CUK.CUKBOB.review.util.ReviewUtil;
@@ -60,12 +60,11 @@ public class ReviewService {
 
     public ReviewListResponse getReviewsByMenuAndUser(Long menuId, Long userId) {
         List<ReviewEntity> reviews = reviewRepository.findByMenuId(menuId);
-        List<List<Boolean>> reviewLists = new ArrayList<>();
 
         int[] totalCounts = new int[5]; // [isLarge, isTasty, isClean, isKind, isCheap]
 
-        List<ReviewDto> reviewDtos = new ArrayList<>();
-        MyReviewDto myReviewDto = null;
+        List<ReviewResponse> reviewDtos = new ArrayList<>();
+        MyReviewResponse myReviewResponse = null;
 
         for (ReviewEntity review : reviews) {
             List<Boolean> list = ReviewUtil.parseReviewListArray(review.getReviewList());
@@ -74,18 +73,29 @@ public class ReviewService {
                 if (list.get(i)) totalCounts[i]++;
             }
 
-            reviewDtos.add(new ReviewDto(review.getId(), list));
+            reviewDtos.add(new ReviewResponse(review.getId(), list));
 
             if (review.getUser().getId().equals(userId)) {
-                myReviewDto = new MyReviewDto(review.getUser().getId(), review.getId(), list);
+                myReviewResponse = new MyReviewResponse(review.getUser().getId(), review.getId(), list);
             }
         }
 
         return new ReviewListResponse(
                 Arrays.stream(totalCounts).boxed().collect(Collectors.toList()),
-                myReviewDto,
+                myReviewResponse,
                 reviewDtos
         );
+    }
+
+    public void deleteReview(Long reviewId, Long userId) {
+        ReviewEntity review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new RuntimeException("리뷰가 존재하지 않습니다."));
+
+        if (!review.getUser().getId().equals(userId)) {
+            throw new RuntimeException("본인이 작성한 리뷰만 삭제할 수 있습니다.");
+        }
+
+        reviewRepository.delete(review);
     }
 }
 

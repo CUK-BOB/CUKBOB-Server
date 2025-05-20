@@ -42,4 +42,13 @@ public class ReviewController {
         ReviewListResponse response = reviewService.getReviewsByMenuAndUser(menuId, userId);
         return ResponseEntity.ok(ApiResponse.success("리뷰 목록 조회 성공", response));
     }
+
+    @DeleteMapping("/{reviewId}/{userId}")
+    public ResponseEntity<?> deleteReview(
+            @PathVariable Long reviewId,
+            @PathVariable Long userId) {
+        reviewService.deleteReview(reviewId, userId);
+        return ResponseEntity.ok(ApiResponse.success("리뷰 삭제 성공", null));
+    }
+
 }

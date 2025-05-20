@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
 
-@Entity
+@Entity(name = "review")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor // 모든 필드를 받는 생성자 자동 생성

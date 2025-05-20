@@ -9,8 +9,8 @@ import java.util.List;
 @AllArgsConstructor
 public class ReviewListResponse {
     private List<Integer> total_review;
-    private MyReviewDto my_review;
-    private List<ReviewDto> reviews;
+    private MyReviewResponse my_review;
+    private List<ReviewResponse> reviews;
 }
 
 

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class ReviewDto {
+public class ReviewResponse {
     private Long reviewId;
     private List<Boolean> review_list;
 }
