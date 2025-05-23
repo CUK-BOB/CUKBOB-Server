@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Entity
 @NoArgsConstructor
 @Getter
@@ -20,7 +21,7 @@ public class User {
     private String nickname;
     @Enumerated(value = EnumType.STRING)
     @Column(name = "social_type")
-    private SocialType socialType;
+    private CUK.CUKBOB.oauth.Domain.SocialType socialType;
 
     @Column(name = "refresh_token")
     private String refreshToken;
@@ -28,7 +29,7 @@ public class User {
     //private String accessToken;
 
     @Builder
-    public User(SocialType socialType, String email) {
+    public User(CUK.CUKBOB.oauth.Domain.SocialType socialType, String email) {
         this.socialType = socialType;
         this.email = email;
         this.nickname = null;

@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
+@Entity(name = "restaurant")
 @Getter
 @Setter
-@Table(name = "restaurant_entity")
 public class RestaurantEntity {
 
     @Id
@@ -26,8 +25,4 @@ public class RestaurantEntity {
     private String dinnerTime;
 
     private String location;
-
-    // 필요시 연관 관계 추가 예:
-    // @OneToMany(mappedBy = "restaurant")
-    // private List<MenuEntity> menus;
 }

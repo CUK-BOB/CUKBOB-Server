@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/menu")
+@RequestMapping("/restaurant")
 @RequiredArgsConstructor
 public class MenuController {
 
