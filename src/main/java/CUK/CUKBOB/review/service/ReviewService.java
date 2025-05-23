@@ -3,10 +3,7 @@ package CUK.CUKBOB.review.service;
 import CUK.CUKBOB.oauth.Repository.UserRepository;
 import CUK.CUKBOB.oauth.Domain.User;
 import CUK.CUKBOB.review.domain.ReviewEntity;
-import CUK.CUKBOB.review.dto.CreateReviewRequest;
-import CUK.CUKBOB.review.dto.MyReviewResponse;
-import CUK.CUKBOB.review.dto.ReviewResponse;
-import CUK.CUKBOB.review.dto.ReviewListResponse;
+import CUK.CUKBOB.review.dto.*;
 import CUK.CUKBOB.review.repository.ReviewRepository;
 import CUK.CUKBOB.review.util.ReviewUtil;
 import CUK.CUKBOB.studentstore.domain.MenuEntity;
@@ -18,10 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -69,6 +63,7 @@ public class ReviewService {
         for (ReviewEntity review : reviews) {
             List<Boolean> list = ReviewUtil.parseReviewListArray(review.getReviewList());
 
+            // 각 항목별 리뷰 개수 증가
             for (int i = 0; i < 5; i++) {
                 if (list.get(i)) totalCounts[i]++;
             }
@@ -80,11 +75,20 @@ public class ReviewService {
             }
         }
 
-        return new ReviewListResponse(
-                Arrays.stream(totalCounts).boxed().collect(Collectors.toList()),
-                myReviewResponse,
-                reviewDtos
-        );
+        // 항목별 개수와 이름을 맵핑한 후 내림차순 정렬
+        Map<String, Integer> totalCountsMap = new HashMap<>();
+        totalCountsMap.put("isLarge", totalCounts[0]);
+        totalCountsMap.put("isTasty", totalCounts[1]);
+        totalCountsMap.put("isClean", totalCounts[2]);
+        totalCountsMap.put("isKind", totalCounts[3]);
+        totalCountsMap.put("isCheap", totalCounts[4]);
+
+        List<CountResponse> sortedTotalReview = totalCountsMap.entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue(Comparator.reverseOrder()))
+                .map(entry -> new CountResponse(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+
+        return new ReviewListResponse(sortedTotalReview, myReviewResponse, reviewDtos);
     }
 
     public void deleteReview(Long reviewId, Long userId) {

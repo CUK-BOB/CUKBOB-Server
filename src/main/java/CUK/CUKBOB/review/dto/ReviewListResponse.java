@@ -8,7 +8,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class ReviewListResponse {
-    private List<Integer> total_review;
+    private List<CountResponse> total_review;
     private MyReviewResponse my_review;
     private List<ReviewResponse> reviews;
 }
