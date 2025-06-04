@@ -1,10 +1,8 @@
 package CUK.CUKBOB.studentstore.service;
 
 import CUK.CUKBOB.studentstore.dto.MealResponse;
-import CUK.CUKBOB.studentstore.domain.MealEntity;
+import CUK.CUKBOB.studentstore.domain.Meal;
 import CUK.CUKBOB.studentstore.repository.MealRepository;
-import CUK.CUKBOB.studentstore.repository.MenuRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +21,7 @@ public class MealService {
     }
 
     // 특정 id의 meal 반환
-    public MealEntity getMeal(Long id) {
+    public Meal getMeal(Long id) {
         return mealRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Meal not found"));
     }

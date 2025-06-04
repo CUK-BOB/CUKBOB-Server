@@ -1,6 +1,6 @@
 package CUK.CUKBOB.studentstore.service;
 
-import CUK.CUKBOB.studentstore.domain.MenuEntity;
+import CUK.CUKBOB.studentstore.domain.Menu;
 import CUK.CUKBOB.studentstore.dto.ApiResponse;
 import CUK.CUKBOB.studentstore.dto.TodayMenuResponse;
 import CUK.CUKBOB.studentstore.dto.WeeklyMenuResponse;
@@ -18,10 +18,10 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     public ApiResponse<TodayMenuResponse> getTodayMenus(LocalDate date) {
-        List<MenuEntity> menus = menuRepository.findAllByDate(date);
+        List<Menu> menus = menuRepository.findAllByDate(date);
         Map<String, List<TodayMenuResponse.RestaurantMenu>> grouped = new LinkedHashMap<>();
 
-        for (MenuEntity menu : menus) {
+        for (Menu menu : menus) {
             String mealTypeKor = menu.getMeal().getType();
             String mealTypeEng = switch (mealTypeKor) {
                 case "조식" -> "morning";
@@ -98,10 +98,10 @@ public class MenuService {
 
 
     public ApiResponse<List<WeeklyMenuResponse>> getWeeklyMenus(LocalDate fromDate, LocalDate toDate) {
-        List<MenuEntity> menus = menuRepository.findAllByDateBetween(fromDate, toDate);
+        List<Menu> menus = menuRepository.findAllByDateBetween(fromDate, toDate);
         Map<Long, WeeklyMenuResponse> result = new HashMap<>();
 
-        for (MenuEntity menu : menus) {
+        for (Menu menu : menus) {
             Long restaurantId = menu.getRestaurant().getId();
             String mealTypeKor = menu.getMeal().getType();
 

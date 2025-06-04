@@ -7,10 +7,11 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "meal")
+@Entity
 @Getter
 @Setter
-public class MealEntity {
+@Table
+public class Meal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,5 +19,5 @@ public class MealEntity {
     private String type; //조식, 중식, 석식
 
     @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MenuEntity> menus = new ArrayList<>();
+    private List<Menu> menus = new ArrayList<>();
 }
