@@ -2,11 +2,11 @@ package CUK.CUKBOB.review.service;
 
 import CUK.CUKBOB.oauth.Repository.UserRepository;
 import CUK.CUKBOB.oauth.Domain.User;
-import CUK.CUKBOB.review.domain.ReviewEntity;
+import CUK.CUKBOB.review.domain.Review;
 import CUK.CUKBOB.review.dto.*;
 import CUK.CUKBOB.review.repository.ReviewRepository;
 import CUK.CUKBOB.review.util.ReviewUtil;
-import CUK.CUKBOB.studentstore.domain.MenuEntity;
+import CUK.CUKBOB.studentstore.domain.Menu;
 import CUK.CUKBOB.studentstore.repository.MenuRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +31,7 @@ public class ReviewService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        MenuEntity menu = menuRepository.findById(request.getMenuId())
+        Menu menu = menuRepository.findById(request.getMenuId())
                 .orElseThrow(() -> new RuntimeException("Menu not found"));
 
         // reviewList 맵을 List로 변환
@@ -43,7 +43,7 @@ public class ReviewService {
         ObjectMapper objectMapper = new ObjectMapper();
         String reviewListJson = objectMapper.writeValueAsString(reviewList);
 
-        ReviewEntity review = new ReviewEntity(
+        Review review = new Review(
                 menu,
                 user,
                 LocalDate.now(),
@@ -53,14 +53,14 @@ public class ReviewService {
     }
 
     public ReviewListResponse getReviewsByMenuAndUser(Long menuId, Long userId) {
-        List<ReviewEntity> reviews = reviewRepository.findByMenuId(menuId);
+        List<Review> reviews = reviewRepository.findByMenuId(menuId);
 
         int[] totalCounts = new int[5]; // [isLarge, isTasty, isClean, isKind, isCheap]
 
         List<ReviewResponse> reviewDtos = new ArrayList<>();
         MyReviewResponse myReviewResponse = null;
 
-        for (ReviewEntity review : reviews) {
+        for (Review review : reviews) {
             List<Boolean> list = ReviewUtil.parseReviewListArray(review.getReviewList());
 
             // 각 항목별 리뷰 개수 증가
@@ -92,7 +92,7 @@ public class ReviewService {
     }
 
     public void deleteReview(Long reviewId, Long userId) {
-        ReviewEntity review = reviewRepository.findById(reviewId)
+        Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new RuntimeException("리뷰가 존재하지 않습니다."));
 
         if (!review.getUser().getId().equals(userId)) {
