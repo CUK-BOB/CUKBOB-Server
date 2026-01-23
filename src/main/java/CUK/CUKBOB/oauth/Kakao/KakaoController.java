@@ -1,17 +1,14 @@
-package CUK.CUKBOB.oauth.Controller;
+package CUK.CUKBOB.oauth.Kakao;
 
 import CUK.CUKBOB.oauth.Dto.Request.SignInRequest;
 import CUK.CUKBOB.oauth.Dto.Response.ApiResponse;
 import CUK.CUKBOB.oauth.Dto.Response.SignInResponse;
 import CUK.CUKBOB.oauth.Jwt.JwtTokenProvider;
-import CUK.CUKBOB.oauth.Service.KakaoService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 @RestController
 @RequiredArgsConstructor
