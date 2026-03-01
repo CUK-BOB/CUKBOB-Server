@@ -1,6 +1,5 @@
-package CUK.CUKBOB.oauth.Service;
+package CUK.CUKBOB.oauth.Kakao;
 
-import CUK.CUKBOB.oauth.Dto.KakaoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

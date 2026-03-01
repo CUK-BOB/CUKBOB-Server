@@ -1,6 +1,5 @@
-package CUK.CUKBOB.oauth.Service;
+package CUK.CUKBOB.oauth.Kakao;
 
-import CUK.CUKBOB.oauth.Dto.KakaoDto;
 import CUK.CUKBOB.oauth.Dto.Request.SignInRequest;
 import CUK.CUKBOB.oauth.Dto.Response.SignInResponse;
 import CUK.CUKBOB.oauth.Repository.UserRepository;
@@ -8,6 +7,7 @@ import CUK.CUKBOB.oauth.Domain.SocialType;
 import CUK.CUKBOB.oauth.Domain.User;
 import CUK.CUKBOB.oauth.Jwt.JwtTokenProvider;
 import CUK.CUKBOB.oauth.Jwt.UserAuthentication;
+import CUK.CUKBOB.oauth.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -34,6 +34,7 @@ public class SecurityConfig {
                         exceptionHandling.authenticationEntryPoint(customJwtAuthenticationEntryPoint))
                 .authorizeHttpRequests(authorizeHttpRequests ->
                         authorizeHttpRequests
+                                .requestMatchers(new AntPathRequestMatcher("/auth/apple/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/auth/kakao/callback")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/fnb/list/**")).permitAll()
                                 .requestMatchers(new AntPathRequestMatcher("/fnb/menu/list/**")).permitAll()
