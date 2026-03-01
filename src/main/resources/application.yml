@@ -25,19 +25,13 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/auth/{registrationId}/callback"
             scope: account_email
-          apple:
-            client-id: ${APPLE_CLIENT_ID}
-            client-secret: """
-            redirect-uri:
-            authorization-grant-type: authorization_code
-            scope: name email
 
           apple:
             client-id: ${APPLE_CLIENT_ID}
             client-secret: ""
             redirect-uri: "{baseUrl}/auth/apple/callback"
             authorization-grant-type: authorization_code
-            scope: name email
+            scope: name, email
 
         provider:
           kakao:
@@ -46,19 +40,17 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-info-authentication-method: header
             user-name-attribute: id
-          apple:
-            authorization-uri: https://appleid.apple.com/auth/authorize
-            token-uri: https://appleid.apple.com/auth/token
 
           apple:
             authorization-uri: https://appleid.apple.com/auth/authorize
             token-uri: https://appleid.apple.com/auth/token
+
+
+  jwt:
+    secret: ${jwt.secret}
+    #expiration: 86400000  # 24시간 (1일)
 
 apple:
   team-id: ${APPLE_TEAM_ID}
   key-id: ${APPLE_KEY_ID}
   private-key: ${APPLE_PRIVATE_KEY}
-
-  jwt:
-    secret: ${jwt.secret}
-    #expiration: 86400000  # 24시간 (1일)
