@@ -116,8 +116,10 @@ public class AppleService {
     // .p8 키 파일을 로드해서 JWT(Client Secret) 생성
     private String createAppleClientSecret() {
         try {
-            // Private Key 파싱 (Bouncy Castle 라이브러리 필요할 수 있음, 없으면 의존성 추가)
-            Reader pemReader = new StringReader(applePrivateKeyString);
+
+            String realPrivateKey = applePrivateKeyString.replace("\\n", "\n");
+
+            Reader pemReader = new StringReader(realPrivateKey);
             PEMParser pemParser = new PEMParser(pemReader);
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             PrivateKey privateKey = converter.getPrivateKey((PrivateKeyInfo) pemParser.readObject());
