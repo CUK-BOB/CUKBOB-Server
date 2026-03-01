@@ -25,6 +25,12 @@ spring:
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/auth/{registrationId}/callback"
             scope: account_email
+          apple:
+            client-id: ${APPLE_CLIENT_ID}
+            client-secret: """
+            redirect-uri:
+            authorization-grant-type: authorization_code
+            scope: name email
 
           apple:
             client-id: ${APPLE_CLIENT_ID}
@@ -40,6 +46,9 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-info-authentication-method: header
             user-name-attribute: id
+          apple:
+            authorization-uri: https://appleid.apple.com/auth/authorize
+            token-uri: https://appleid.apple.com/auth/token
 
           apple:
             authorization-uri: https://appleid.apple.com/auth/authorize

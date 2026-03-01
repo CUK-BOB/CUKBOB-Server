@@ -1,4 +1,4 @@
-package CUK.CUKBOB.oauth.Dto;
+package CUK.CUKBOB.oauth.Kakao;
 
 import lombok.Data;
 import lombok.Getter;
